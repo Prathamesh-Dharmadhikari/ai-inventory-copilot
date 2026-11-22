@@ -23,6 +23,7 @@ def get_secret(name, default=None):
 
 
 API_KEY = get_secret("ANTHROPIC_API_KEY")
+APP_PASSWORD = get_secret("APP_PASSWORD")  # optional: protects the AI tab (your API key costs money)
 MODEL = get_secret("ANTHROPIC_MODEL", copilot.MODEL_DEFAULT)
 
 # ---------- sidebar: planning parameters ----------
@@ -67,7 +68,8 @@ with tab_overview:
         st.subheader("Average stock value by ABC class (€)")
         by = df.groupby("abc")[["uniform_avg_stock_eur", "segment_avg_stock_eur"]].sum()
         by.columns = ["Uniform", "Segmented"]
-        st.bar_chart(by)
+        st.bar_chart(by.reset_index().melt("abc", var_name="Policy", value_name="EUR"),
+                     x="abc", y="EUR", color="Policy", stack=False, x_label="ABC class", y_label="€")
         st.subheader("Stock status today")
         st.bar_chart(df["status"].value_counts().sort_index())
 
@@ -117,6 +119,15 @@ with tab_ai:
     if not API_KEY:
         st.info("To activate the AI Copilot, add your ANTHROPIC_API_KEY in Streamlit → Settings → Secrets "
                 "(or as an environment variable when running locally). The other tabs work without it.")
+    elif APP_PASSWORD and not st.session_state.get("unlocked"):
+        pw = st.text_input("This demo uses a paid AI key. Enter the demo password to use the chat:", type="password")
+        if pw:
+            if pw == APP_PASSWORD:
+                st.session_state.unlocked = True
+                st.rerun()
+            else:
+                st.error("Wrong password.")
+        st.caption("No password? The Overview, Reorder alerts and Part explorer tabs are open to everyone.")
     else:
         import anthropic
         client = anthropic.Anthropic(api_key=API_KEY)
