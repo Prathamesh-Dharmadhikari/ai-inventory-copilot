@@ -1,0 +1,301 @@
+part,description,category,supplier,unit_cost_eur,lead_time_weeks
+MP-10001,Level sensor,Sensors,Supplier 13,230.68,7
+MP-10002,Socket screw M6x20,Fasteners,Supplier 04,0.26,3
+MP-10003,Hydraulic filter 10um,Filters,Supplier 07,19.93,8
+MP-10004,Fuel filter,Filters,Supplier 09,13.52,4
+MP-10005,Proportional valve,Hydraulic valves,Supplier 10,361.84,6
+MP-10006,Spherical bearing 22210,Bearings,Supplier 13,22.5,1
+MP-10007,Ball bearing 6308,Bearings,Supplier 09,15.47,8
+MP-10008,Timing belt HTD 8M,Belts,Supplier 02,29.61,2
+MP-10009,Lip seal 25x40x7,Seals,Supplier 09,5.39,3
+MP-10010,Hex nut M10,Fasteners,Supplier 04,0.28,4
+MP-10011,Roller bearing NU207,Bearings,Supplier 13,45.83,3
+MP-10012,Spherical bearing 22210,Bearings,Supplier 13,5.77,4
+MP-10013,Shaft seal 35x52x7,Seals,Supplier 05,17.27,6
+MP-10014,Ball bearing 6308,Bearings,Supplier 06,14.67,6
+MP-10015,Ball bearing 6308,Bearings,Supplier 01,9.86,6
+MP-10016,Lip seal 25x40x7,Seals,Supplier 12,0.86,10
+MP-10017,Ball bearing 6205-2RS,Bearings,Supplier 12,4.44,2
+MP-10018,Flat belt 40mm,Belts,Supplier 05,45.9,1
+MP-10019,Gasket set pump,Seals,Supplier 04,1.52,2
+MP-10020,Control unit ECU,Electronic modules,Supplier 09,217.03,6
+MP-10021,Power supply 24V,Electronic modules,Supplier 10,151.05,12
+MP-10022,Hydraulic filter 10um,Filters,Supplier 07,6.39,4
+MP-10023,Shaft seal 35x52x7,Seals,Supplier 03,5.7,6
+MP-10024,Oil filter element,Filters,Supplier 01,3.7,3
+MP-10025,Pressure relief valve,Hydraulic valves,Supplier 15,530.92,4
+MP-10026,Poly-V belt 6PK,Belts,Supplier 03,57.28,8
+MP-10027,Level sensor,Sensors,Supplier 06,152.75,5
+MP-10028,Cabin filter,Filters,Supplier 01,21.08,8
+MP-10029,V-belt SPZ 1250,Belts,Supplier 01,44.75,3
+MP-10030,Gasket set pump,Seals,Supplier 15,3.65,3
+MP-10031,Level sensor,Sensors,Supplier 08,44.88,9
+MP-10032,Shaft seal 35x52x7,Seals,Supplier 10,1.01,10
+MP-10033,Timing belt HTD 8M,Belts,Supplier 01,70.16,2
+MP-10034,Proportional valve,Hydraulic valves,Supplier 11,192.23,5
+MP-10035,Hex nut M10,Fasteners,Supplier 06,0.83,4
+MP-10036,V-belt SPZ 1250,Belts,Supplier 13,19.4,2
+MP-10037,Lock nut M16,Fasteners,Supplier 05,0.41,6
+MP-10038,Temperature sensor PT100,Sensors,Supplier 09,70.06,5
+MP-10039,Hex nut M10,Fasteners,Supplier 04,0.64,2
+MP-10040,I/O module 16ch,Electronic modules,Supplier 12,674.81,9
+MP-10041,Lock nut M16,Fasteners,Supplier 15,0.22,6
+MP-10042,I/O module 16ch,Electronic modules,Supplier 09,552.13,9
+MP-10043,Pressure sensor 0-10bar,Sensors,Supplier 11,135.55,12
+MP-10044,Oil filter element,Filters,Supplier 08,10.73,1
+MP-10045,Speed sensor,Sensors,Supplier 09,112.42,4
+MP-10046,Temperature sensor PT100,Sensors,Supplier 01,61.36,4
+MP-10047,I/O module 16ch,Electronic modules,Supplier 01,138.32,12
+MP-10048,Lip seal 25x40x7,Seals,Supplier 13,4.83,6
+MP-10049,Hydraulic filter 10um,Filters,Supplier 14,59.41,6
+MP-10050,Washer DIN 125 M12,Fasteners,Supplier 07,0.41,3
+MP-10051,V-belt SPZ 1250,Belts,Supplier 11,40.46,6
+MP-10052,Washer DIN 125 M12,Fasteners,Supplier 03,0.16,2
+MP-10053,Cabin filter,Filters,Supplier 05,4.82,1
+MP-10054,Hydraulic filter 10um,Filters,Supplier 14,8.64,2
+MP-10055,Ball bearing 6205-2RS,Bearings,Supplier 15,7.65,4
+MP-10056,Hydraulic filter 10um,Filters,Supplier 02,26.19,6
+MP-10057,Temperature sensor PT100,Sensors,Supplier 06,99.13,5
+MP-10058,Speed sensor,Sensors,Supplier 05,30.84,7
+MP-10059,Cabin filter,Filters,Supplier 04,3.04,2
+MP-10060,Cabin filter,Filters,Supplier 15,9.11,8
+MP-10061,Control unit ECU,Electronic modules,Supplier 10,566.17,12
+MP-10062,Lock nut M16,Fasteners,Supplier 04,0.59,3
+MP-10063,Hex nut M10,Fasteners,Supplier 10,0.51,2
+MP-10064,Socket screw M6x20,Fasteners,Supplier 12,0.39,1
+MP-10065,Flat belt 40mm,Belts,Supplier 02,42.81,1
+MP-10066,Spherical bearing 22210,Bearings,Supplier 06,49.1,6
+MP-10067,Temperature sensor PT100,Sensors,Supplier 12,51.53,9
+MP-10068,Toothed belt T10,Belts,Supplier 05,1.59,12
+MP-10069,Flat gasket DN50,Seals,Supplier 13,22.29,3
+MP-10070,Pressure relief valve,Hydraulic valves,Supplier 01,307.73,7
+MP-10071,Inductive proximity sensor,Sensors,Supplier 01,49.58,11
+MP-10072,Flat gasket DN50,Seals,Supplier 15,4.01,2
+MP-10073,Spherical bearing 22210,Bearings,Supplier 12,36.59,2
+MP-10074,Shaft seal 35x52x7,Seals,Supplier 12,2.85,8
+MP-10075,Hex bolt M8x30,Fasteners,Supplier 15,1.74,2
+MP-10076,Washer DIN 125 M12,Fasteners,Supplier 10,0.7,4
+MP-10077,I/O module 16ch,Electronic modules,Supplier 03,556.38,6
+MP-10078,Spherical bearing 22210,Bearings,Supplier 06,15.51,2
+MP-10079,Spherical bearing 22210,Bearings,Supplier 13,39.55,8
+MP-10080,Temperature sensor PT100,Sensors,Supplier 12,120.78,6
+MP-10081,Hydraulic filter 10um,Filters,Supplier 14,21.53,3
+MP-10082,Power supply 24V,Electronic modules,Supplier 01,530.71,5
+MP-10083,Level sensor,Sensors,Supplier 01,257.68,5
+MP-10084,Ball bearing 6205-2RS,Bearings,Supplier 07,6.78,4
+MP-10085,Ball bearing 6205-2RS,Bearings,Supplier 03,35.04,2
+MP-10086,Motor driver board,Electronic modules,Supplier 02,474.98,7
+MP-10087,Level sensor,Sensors,Supplier 14,49.5,6
+MP-10088,Display module 7in,Electronic modules,Supplier 03,1798.81,11
+MP-10089,Washer DIN 125 M12,Fasteners,Supplier 09,1.12,2
+MP-10090,Check valve DN10,Hydraulic valves,Supplier 10,273.48,7
+MP-10091,Poly-V belt 6PK,Belts,Supplier 11,101.59,4
+MP-10092,Socket screw M6x20,Fasteners,Supplier 13,0.92,6
+MP-10093,Oil filter element,Filters,Supplier 11,5.67,2
+MP-10094,Toothed belt T10,Belts,Supplier 13,36.85,6
+MP-10095,Lock nut M16,Fasteners,Supplier 05,0.31,2
+MP-10096,Spherical bearing 22210,Bearings,Supplier 09,8.54,8
+MP-10097,Flow control valve,Hydraulic valves,Supplier 02,419.71,6
+MP-10098,Lip seal 25x40x7,Seals,Supplier 02,2.87,3
+MP-10099,Spherical bearing 22210,Bearings,Supplier 06,88.48,8
+MP-10100,Needle bearing HK2016,Bearings,Supplier 12,23.93,1
+MP-10101,Flat gasket DN50,Seals,Supplier 07,10.15,4
+MP-10102,Motor driver board,Electronic modules,Supplier 12,326.62,12
+MP-10103,Level sensor,Sensors,Supplier 12,60.2,7
+MP-10104,Hex nut M10,Fasteners,Supplier 10,1.02,1
+MP-10105,I/O module 16ch,Electronic modules,Supplier 13,695.84,6
+MP-10106,Check valve DN10,Hydraulic valves,Supplier 03,1102.04,11
+MP-10107,Flat gasket DN50,Seals,Supplier 15,3.33,4
+MP-10108,Flow control valve,Hydraulic valves,Supplier 13,211.75,9
+MP-10109,Washer DIN 125 M12,Fasteners,Supplier 11,0.17,8
+MP-10110,I/O module 16ch,Electronic modules,Supplier 10,415.38,4
+MP-10111,V-belt SPZ 1250,Belts,Supplier 01,33.8,6
+MP-10112,Timing belt HTD 8M,Belts,Supplier 11,10.55,3
+MP-10113,Hex nut M10,Fasteners,Supplier 11,0.96,1
+MP-10114,Flow control valve,Hydraulic valves,Supplier 01,170.19,9
+MP-10115,Socket screw M6x20,Fasteners,Supplier 15,0.17,1
+MP-10116,Gasket set pump,Seals,Supplier 04,7.24,4
+MP-10117,Hex bolt M8x30,Fasteners,Supplier 02,1.14,1
+MP-10118,Level sensor,Sensors,Supplier 04,250.78,11
+MP-10119,Lip seal 25x40x7,Seals,Supplier 14,4.19,6
+MP-10120,Power supply 24V,Electronic modules,Supplier 10,456.68,11
+MP-10121,Toothed belt T10,Belts,Supplier 13,145.04,4
+MP-10122,Socket screw M6x20,Fasteners,Supplier 02,0.37,4
+MP-10123,Hex bolt M8x30,Fasteners,Supplier 15,0.19,2
+MP-10124,Hex bolt M8x30,Fasteners,Supplier 03,0.21,10
+MP-10125,Toothed belt T10,Belts,Supplier 01,32.01,2
+MP-10126,Pressure sensor 0-10bar,Sensors,Supplier 08,92.56,5
+MP-10127,Flat gasket DN50,Seals,Supplier 15,1.91,3
+MP-10128,Directional valve 4/3,Hydraulic valves,Supplier 07,1385.2,9
+MP-10129,Lock nut M16,Fasteners,Supplier 03,0.32,2
+MP-10130,Inductive proximity sensor,Sensors,Supplier 07,83.86,6
+MP-10131,Control unit ECU,Electronic modules,Supplier 11,158.45,4
+MP-10132,Level sensor,Sensors,Supplier 14,115.13,6
+MP-10133,Timing belt HTD 8M,Belts,Supplier 01,20.13,6
+MP-10134,Check valve DN10,Hydraulic valves,Supplier 09,567.32,6
+MP-10135,Washer DIN 125 M12,Fasteners,Supplier 08,1.93,8
+MP-10136,Lip seal 25x40x7,Seals,Supplier 09,1.18,3
+MP-10137,Socket screw M6x20,Fasteners,Supplier 09,2.34,3
+MP-10138,Fuel filter,Filters,Supplier 09,8.62,2
+MP-10139,Pressure sensor 0-10bar,Sensors,Supplier 05,85.87,4
+MP-10140,Toothed belt T10,Belts,Supplier 09,9.47,2
+MP-10141,Directional valve 4/3,Hydraulic valves,Supplier 09,130.74,12
+MP-10142,Lock nut M16,Fasteners,Supplier 09,0.35,4
+MP-10143,Temperature sensor PT100,Sensors,Supplier 06,158.58,12
+MP-10144,Lip seal 25x40x7,Seals,Supplier 02,1.47,6
+MP-10145,Flat gasket DN50,Seals,Supplier 04,1.52,1
+MP-10146,Pressure sensor 0-10bar,Sensors,Supplier 14,44.31,9
+MP-10147,Motor driver board,Electronic modules,Supplier 03,725.1,6
+MP-10148,Timing belt HTD 8M,Belts,Supplier 13,15.19,10
+MP-10149,Lock nut M16,Fasteners,Supplier 15,0.26,6
+MP-10150,Poly-V belt 6PK,Belts,Supplier 14,8.55,1
+MP-10151,Washer DIN 125 M12,Fasteners,Supplier 07,1.11,2
+MP-10152,Check valve DN10,Hydraulic valves,Supplier 03,305.6,12
+MP-10153,Speed sensor,Sensors,Supplier 04,61.04,11
+MP-10154,Hex nut M10,Fasteners,Supplier 08,0.3,4
+MP-10155,Lock nut M16,Fasteners,Supplier 15,0.99,6
+MP-10156,Gasket set pump,Seals,Supplier 02,2.28,2
+MP-10157,Power supply 24V,Electronic modules,Supplier 05,1321.51,12
+MP-10158,Spherical bearing 22210,Bearings,Supplier 04,10.69,6
+MP-10159,Inductive proximity sensor,Sensors,Supplier 03,118.96,9
+MP-10160,Poly-V belt 6PK,Belts,Supplier 04,54.17,2
+MP-10161,Air filter cartridge,Filters,Supplier 09,17.48,2
+MP-10162,Washer DIN 125 M12,Fasteners,Supplier 14,0.27,4
+MP-10163,I/O module 16ch,Electronic modules,Supplier 09,440.21,5
+MP-10164,Shaft seal 35x52x7,Seals,Supplier 02,1.05,1
+MP-10165,Fuel filter,Filters,Supplier 05,13.79,6
+MP-10166,Poly-V belt 6PK,Belts,Supplier 14,20.24,4
+MP-10167,Poly-V belt 6PK,Belts,Supplier 07,10.56,3
+MP-10168,I/O module 16ch,Electronic modules,Supplier 03,361.54,9
+MP-10169,Hex nut M10,Fasteners,Supplier 07,1.01,2
+MP-10170,Cabin filter,Filters,Supplier 14,15.43,2
+MP-10171,Spherical bearing 22210,Bearings,Supplier 13,6.86,1
+MP-10172,Needle bearing HK2016,Bearings,Supplier 04,19.53,4
+MP-10173,Washer DIN 125 M12,Fasteners,Supplier 08,0.25,4
+MP-10174,Socket screw M6x20,Fasteners,Supplier 09,0.19,4
+MP-10175,Shaft seal 35x52x7,Seals,Supplier 02,24.72,2
+MP-10176,O-ring 40x3 NBR,Seals,Supplier 15,2.57,3
+MP-10177,Needle bearing HK2016,Bearings,Supplier 14,17.29,3
+MP-10178,Flat belt 40mm,Belts,Supplier 05,73.76,3
+MP-10179,V-belt SPZ 1250,Belts,Supplier 01,8.07,2
+MP-10180,Needle bearing HK2016,Bearings,Supplier 15,21.1,3
+MP-10181,Spherical bearing 22210,Bearings,Supplier 01,45.38,10
+MP-10182,O-ring 40x3 NBR,Seals,Supplier 15,33.32,4
+MP-10183,Hydraulic filter 10um,Filters,Supplier 10,4.95,8
+MP-10184,Lip seal 25x40x7,Seals,Supplier 08,11.65,2
+MP-10185,Hex bolt M8x30,Fasteners,Supplier 05,0.14,4
+MP-10186,Roller bearing NU207,Bearings,Supplier 08,7.45,2
+MP-10187,Spherical bearing 22210,Bearings,Supplier 03,41.73,8
+MP-10188,Gasket set pump,Seals,Supplier 11,2.79,2
+MP-10189,Fuel filter,Filters,Supplier 13,3.76,3
+MP-10190,Hydraulic filter 10um,Filters,Supplier 12,24.48,2
+MP-10191,Level sensor,Sensors,Supplier 14,51.28,6
+MP-10192,Poly-V belt 6PK,Belts,Supplier 12,48.52,2
+MP-10193,V-belt SPZ 1250,Belts,Supplier 01,9.58,4
+MP-10194,Gasket set pump,Seals,Supplier 03,4.26,2
+MP-10195,Speed sensor,Sensors,Supplier 12,176.39,4
+MP-10196,Air filter cartridge,Filters,Supplier 03,11.37,3
+MP-10197,Ball bearing 6308,Bearings,Supplier 09,39.18,3
+MP-10198,Poly-V belt 6PK,Belts,Supplier 12,23.43,2
+MP-10199,Needle bearing HK2016,Bearings,Supplier 01,33.48,6
+MP-10200,Oil filter element,Filters,Supplier 05,12.54,4
+MP-10201,Level sensor,Sensors,Supplier 02,97.86,9
+MP-10202,Proportional valve,Hydraulic valves,Supplier 06,327.74,5
+MP-10203,Power supply 24V,Electronic modules,Supplier 09,164.3,6
+MP-10204,Air filter cartridge,Filters,Supplier 02,7.06,6
+MP-10205,Cabin filter,Filters,Supplier 02,5.32,6
+MP-10206,Speed sensor,Sensors,Supplier 09,201.51,5
+MP-10207,Shaft seal 35x52x7,Seals,Supplier 10,6.0,10
+MP-10208,Proportional valve,Hydraulic valves,Supplier 12,83.02,5
+MP-10209,Cabin filter,Filters,Supplier 04,3.88,2
+MP-10210,Washer DIN 125 M12,Fasteners,Supplier 12,0.53,2
+MP-10211,Washer DIN 125 M12,Fasteners,Supplier 11,0.65,10
+MP-10212,Check valve DN10,Hydraulic valves,Supplier 04,277.65,6
+MP-10213,Hex bolt M8x30,Fasteners,Supplier 06,0.41,6
+MP-10214,O-ring 40x3 NBR,Seals,Supplier 03,3.65,4
+MP-10215,Gasket set pump,Seals,Supplier 11,6.36,8
+MP-10216,Washer DIN 125 M12,Fasteners,Supplier 01,0.12,8
+MP-10217,Shaft seal 35x52x7,Seals,Supplier 12,1.0,4
+MP-10218,Temperature sensor PT100,Sensors,Supplier 02,44.38,12
+MP-10219,Lock nut M16,Fasteners,Supplier 13,0.13,8
+MP-10220,Directional valve 4/3,Hydraulic valves,Supplier 10,127.82,9
+MP-10221,Pressure relief valve,Hydraulic valves,Supplier 10,379.11,7
+MP-10222,Roller bearing NU207,Bearings,Supplier 04,91.36,3
+MP-10223,Socket screw M6x20,Fasteners,Supplier 01,0.3,3
+MP-10224,Poly-V belt 6PK,Belts,Supplier 02,18.72,3
+MP-10225,Socket screw M6x20,Fasteners,Supplier 10,0.36,2
+MP-10226,Ball bearing 6308,Bearings,Supplier 01,9.18,8
+MP-10227,Motor driver board,Electronic modules,Supplier 04,876.63,12
+MP-10228,Control unit ECU,Electronic modules,Supplier 04,436.29,7
+MP-10229,Level sensor,Sensors,Supplier 07,141.26,5
+MP-10230,Lip seal 25x40x7,Seals,Supplier 04,2.52,2
+MP-10231,V-belt SPZ 1250,Belts,Supplier 03,10.16,1
+MP-10232,Temperature sensor PT100,Sensors,Supplier 15,24.13,7
+MP-10233,Roller bearing NU207,Bearings,Supplier 12,17.7,4
+MP-10234,V-belt SPZ 1250,Belts,Supplier 09,76.93,3
+MP-10235,Hex bolt M8x30,Fasteners,Supplier 06,0.34,12
+MP-10236,Lip seal 25x40x7,Seals,Supplier 01,1.15,4
+MP-10237,Oil filter element,Filters,Supplier 09,8.44,4
+MP-10238,Lock nut M16,Fasteners,Supplier 10,0.28,3
+MP-10239,Hex nut M10,Fasteners,Supplier 12,0.23,4
+MP-10240,Flow control valve,Hydraulic valves,Supplier 03,440.32,12
+MP-10241,Power supply 24V,Electronic modules,Supplier 13,224.72,6
+MP-10242,Cabin filter,Filters,Supplier 01,13.45,3
+MP-10243,Flow control valve,Hydraulic valves,Supplier 07,347.84,6
+MP-10244,Power supply 24V,Electronic modules,Supplier 15,2659.9,7
+MP-10245,Hex nut M10,Fasteners,Supplier 15,2.83,3
+MP-10246,Spherical bearing 22210,Bearings,Supplier 14,20.24,6
+MP-10247,Roller bearing NU207,Bearings,Supplier 09,16.62,4
+MP-10248,Lock nut M16,Fasteners,Supplier 01,0.42,2
+MP-10249,Speed sensor,Sensors,Supplier 01,75.39,6
+MP-10250,Spherical bearing 22210,Bearings,Supplier 08,8.02,4
+MP-10251,Needle bearing HK2016,Bearings,Supplier 08,36.99,2
+MP-10252,Hex bolt M8x30,Fasteners,Supplier 13,0.22,2
+MP-10253,Gasket set pump,Seals,Supplier 10,3.41,8
+MP-10254,Pressure relief valve,Hydraulic valves,Supplier 06,677.12,7
+MP-10255,Lock nut M16,Fasteners,Supplier 08,0.4,8
+MP-10256,Flat gasket DN50,Seals,Supplier 02,10.39,8
+MP-10257,Shaft seal 35x52x7,Seals,Supplier 06,1.73,10
+MP-10258,Cabin filter,Filters,Supplier 11,36.65,12
+MP-10259,Oil filter element,Filters,Supplier 15,14.35,1
+MP-10260,Air filter cartridge,Filters,Supplier 03,73.52,4
+MP-10261,Socket screw M6x20,Fasteners,Supplier 04,0.53,2
+MP-10262,Gasket set pump,Seals,Supplier 08,2.36,4
+MP-10263,Pressure relief valve,Hydraulic valves,Supplier 02,66.2,9
+MP-10264,Timing belt HTD 8M,Belts,Supplier 06,37.4,3
+MP-10265,Poly-V belt 6PK,Belts,Supplier 05,14.67,6
+MP-10266,V-belt SPZ 1250,Belts,Supplier 13,39.29,6
+MP-10267,Speed sensor,Sensors,Supplier 10,126.32,7
+MP-10268,Socket screw M6x20,Fasteners,Supplier 02,0.44,8
+MP-10269,Roller bearing NU207,Bearings,Supplier 11,8.08,1
+MP-10270,Oil filter element,Filters,Supplier 15,6.48,2
+MP-10271,Flat gasket DN50,Seals,Supplier 11,7.53,6
+MP-10272,Directional valve 4/3,Hydraulic valves,Supplier 05,46.6,4
+MP-10273,Fuel filter,Filters,Supplier 07,24.02,3
+MP-10274,Pressure sensor 0-10bar,Sensors,Supplier 09,23.88,4
+MP-10275,Flow control valve,Hydraulic valves,Supplier 02,262.6,4
+MP-10276,Hydraulic filter 10um,Filters,Supplier 13,36.38,8
+MP-10277,Directional valve 4/3,Hydraulic valves,Supplier 13,112.68,11
+MP-10278,Cabin filter,Filters,Supplier 06,3.99,12
+MP-10279,Pressure relief valve,Hydraulic valves,Supplier 08,69.21,12
+MP-10280,Needle bearing HK2016,Bearings,Supplier 02,9.51,4
+MP-10281,Oil filter element,Filters,Supplier 08,25.51,6
+MP-10282,Hydraulic filter 10um,Filters,Supplier 01,5.07,2
+MP-10283,Socket screw M6x20,Fasteners,Supplier 05,0.41,2
+MP-10284,Ball bearing 6205-2RS,Bearings,Supplier 12,21.75,4
+MP-10285,I/O module 16ch,Electronic modules,Supplier 01,165.98,4
+MP-10286,Poly-V belt 6PK,Belts,Supplier 15,14.45,4
+MP-10287,Hex bolt M8x30,Fasteners,Supplier 07,0.24,1
+MP-10288,Shaft seal 35x52x7,Seals,Supplier 15,13.03,1
+MP-10289,Shaft seal 35x52x7,Seals,Supplier 12,2.05,2
+MP-10290,Hex nut M10,Fasteners,Supplier 05,0.6,6
+MP-10291,Power supply 24V,Electronic modules,Supplier 05,932.86,9
+MP-10292,Ball bearing 6308,Bearings,Supplier 03,10.12,6
+MP-10293,Gasket set pump,Seals,Supplier 07,1.87,4
+MP-10294,Cabin filter,Filters,Supplier 10,8.52,2
+MP-10295,Hex nut M10,Fasteners,Supplier 13,0.27,6
+MP-10296,O-ring 40x3 NBR,Seals,Supplier 07,0.84,6
+MP-10297,Inductive proximity sensor,Sensors,Supplier 07,37.77,5
+MP-10298,Toothed belt T10,Belts,Supplier 06,57.69,2
+MP-10299,I/O module 16ch,Electronic modules,Supplier 01,715.73,5
+MP-10300,Flat belt 40mm,Belts,Supplier 01,61.62,2
