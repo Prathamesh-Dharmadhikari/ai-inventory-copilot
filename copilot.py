@@ -221,7 +221,7 @@ def _call(api_key: str, model: str, history: list) -> dict:
         "systemInstruction": {"parts": [{"text": SYSTEM_PROMPT}]},
         "contents": history,
         "tools": gemini_tools(),
-        "generationConfig": {"maxOutputTokens": 2000},
+        "generationConfig": {"maxOutputTokens": 8192},  # thinking models count their thinking here too
     }
     waits = [2, 5, 10]  # busy model: wait and retry a few times
     for attempt in range(len(waits) + 1):
@@ -267,10 +267,11 @@ def _call_any(api_key: str, models: list, history: list) -> dict:
     raise AIError("No Gemini model found. Set GEMINI_MODEL in Secrets to a current model name from aistudio.google.com.")
 
 
-def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int = 8):
+def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int = 10):
     """Run one user turn. `history` is the Gemini `contents` list; it is extended in place.
     Returns (final_text, tool_calls) where tool_calls is a list of (name, args) for transparency."""
     calls = []
+    nudged = False
     for _ in range(max_rounds):
         models = model if isinstance(model, list) else model_candidates(model)
         data = _call_any(api_key, models, history)
@@ -284,7 +285,19 @@ def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int
         parts = content.get("parts", [])
         fcalls = [p["functionCall"] for p in parts if "functionCall" in p]
         if not fcalls:
-            return "\n".join(p["text"] for p in parts if "text" in p and not p.get("thought")).strip(), calls
+            text = "\n".join(p["text"] for p in parts if "text" in p and not p.get("thought")).strip()
+            if text:
+                return text, calls
+            if not nudged:  # model stopped without writing an answer: ask once for the final answer
+                nudged = True
+                if not parts:
+                    history.pop()  # Gemini rejects empty turns in the history
+                history.append({"role": "user", "parts": [{"text":
+                    "Please write your final answer now for the planner, using the tool results above. "
+                    "Keep it short: a table or bullet list of the parts and the quantities to order."}]})
+                continue
+            return ("The AI collected the data (see 'Data used') but did not write an answer. "
+                    "Please ask again or make the question more specific."), calls
         responses = []
         for fc in fcalls:
             args = fc.get("args", {}) or {}
