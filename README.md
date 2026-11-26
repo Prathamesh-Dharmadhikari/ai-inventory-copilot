@@ -22,7 +22,7 @@ suggested orders worth about 956K €. Clicking a supplier filters the page.
 Drill-through page (right-click a part) showing segment, service level, demand variability,
 safety stock, reorder point, EOQ and the suggested order.
 
-![Part detail](Images/page3_detail.png)
+![Part detail](Images/page3_details.png)
 
 **Power BI features used:** DAX measures, what-if parameter, drill-through,
 conditional formatting, page navigation, synced slicers.
