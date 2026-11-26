@@ -13,8 +13,9 @@ import numpy as np
 import pandas as pd
 
 # Free-tier Gemini models. The first one that works is used; override with the GEMINI_MODEL secret.
-MODEL_DEFAULT = "gemini-flash-latest"
-MODEL_FALLBACKS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+MODEL_DEFAULT = "gemini-4-hydrogen"
+MODEL_FALLBACKS = ["gemini-4-hydrogen", "gemini-flash-latest", "gemini-flash-lite-latest",
+                   "gemini-2.5-flash", "gemini-2.5-flash-lite"]
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
 SYSTEM_PROMPT = """You are an AI planning copilot for a material planner at a German manufacturing company.
@@ -211,6 +212,10 @@ class AIError(Exception):
     pass
 
 
+class Busy(Exception):
+    """Model temporarily overloaded (503/500) or rate-limited (429)."""
+
+
 def _call(api_key: str, model: str, history: list) -> dict:
     body = {
         "systemInstruction": {"parts": [{"text": SYSTEM_PROMPT}]},
@@ -218,15 +223,16 @@ def _call(api_key: str, model: str, history: list) -> dict:
         "tools": gemini_tools(),
         "generationConfig": {"maxOutputTokens": 2000},
     }
-    for attempt in range(2):
+    waits = [2, 5, 10]  # busy model: wait and retry a few times
+    for attempt in range(len(waits) + 1):
         r = requests.post(API_URL.format(model=model), json=body, timeout=90,
                           headers={"x-goog-api-key": api_key, "Content-Type": "application/json"})
-        if r.status_code == 429 and attempt == 0:
-            time.sleep(8)  # free tier: short pause, then one retry
+        if r.status_code in (429, 500, 503) and attempt < len(waits):
+            time.sleep(waits[attempt])
             continue
         break
-    if r.status_code == 429:
-        raise AIError("The free AI quota is used up for the moment. Please wait a minute (or try again tomorrow).")
+    if r.status_code in (429, 500, 503):
+        raise Busy(f"{model}: {r.status_code}")
     if r.status_code == 404:
         raise FileNotFoundError(model)
     if r.status_code in (400, 401, 403) and "API key" in r.text:
@@ -236,24 +242,38 @@ def _call(api_key: str, model: str, history: list) -> dict:
     return r.json()
 
 
+def model_candidates(preferred: str | None) -> list:
+    return ([preferred] if preferred else []) + [m for m in MODEL_FALLBACKS if m != preferred]
+
+
 def pick_model(api_key: str, preferred: str | None) -> str:
-    """Return the first model name that answers, so the app keeps working when Google renames models."""
-    candidates = ([preferred] if preferred else []) + [m for m in MODEL_FALLBACKS if m != preferred]
-    for m in candidates:
+    """Kept for compatibility: the first configured model; switching happens in chat()."""
+    return model_candidates(preferred)[0]
+
+
+def _call_any(api_key: str, models: list, history: list) -> dict:
+    """Try the models in order; skip ones that don't exist or are overloaded."""
+    busy = False
+    for m in models:
         try:
-            _call(api_key, m, [{"role": "user", "parts": [{"text": "Reply with OK."}]}])
-            return m
+            return _call(api_key, m, history)
         except FileNotFoundError:
             continue
+        except Busy:
+            busy = True
+            continue
+    if busy:
+        raise AIError("Google's free AI models are busy right now. Please try again in a minute.")
     raise AIError("No Gemini model found. Set GEMINI_MODEL in Secrets to a current model name from aistudio.google.com.")
 
 
-def chat(api_key: str, model: str, history: list, df, params, kpi_fn, max_rounds: int = 8):
+def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int = 8):
     """Run one user turn. `history` is the Gemini `contents` list; it is extended in place.
     Returns (final_text, tool_calls) where tool_calls is a list of (name, args) for transparency."""
     calls = []
     for _ in range(max_rounds):
-        data = _call(api_key, model, history)
+        models = model if isinstance(model, list) else model_candidates(model)
+        data = _call_any(api_key, models, history)
         cands = data.get("candidates") or []
         if not cands or "content" not in cands[0]:
             reason = (cands[0].get("finishReason") if cands else None) or data.get("promptFeedback", {})

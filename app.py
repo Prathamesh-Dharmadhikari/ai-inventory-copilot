@@ -130,11 +130,7 @@ with tab_ai:
         st.caption("No password? The Overview, Reorder alerts and Part explorer tabs are open to everyone.")
     else:
         if "model" not in st.session_state:
-            try:
-                st.session_state.model = copilot.pick_model(API_KEY, MODEL_PREF)
-            except Exception as e:
-                st.error(str(e))
-                st.stop()
+            st.session_state.model = copilot.model_candidates(MODEL_PREF)
         if "history" not in st.session_state:
             st.session_state.history, st.session_state.display = [], []
 
