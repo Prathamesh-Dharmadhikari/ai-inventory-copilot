@@ -1,15 +1,21 @@
-"""AI planning copilot: Claude with tools that read the planning engine.
+"""AI planning copilot: Google Gemini with tools (function calling) that read the planning engine.
 
 The model never invents numbers: every figure comes from a tool call
 on the planning data. Emails are drafts only — a planner reviews and sends them.
 """
 import json
+import time
+
+import requests
 from statistics import NormalDist
 
 import numpy as np
 import pandas as pd
 
-MODEL_DEFAULT = "claude-sonnet-5-5"
+# Free-tier Gemini models. The first one that works is used; override with the GEMINI_MODEL secret.
+MODEL_DEFAULT = "gemini-flash-latest"
+MODEL_FALLBACKS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
 SYSTEM_PROMPT = """You are an AI planning copilot for a material planner at a German manufacturing company.
 You work on a spare-parts inventory model (300 parts, synthetic demo data) with ABC/XYZ segmentation,
@@ -178,28 +184,95 @@ def run_tool(name: str, args: dict, df: pd.DataFrame, params, kpi_fn) -> str:
         return json.dumps({"error": str(e)})
 
 
-def chat(client, model: str, history: list, df, params, kpi_fn, max_rounds: int = 8):
-    """Run one user turn. `history` is the Anthropic messages list; it is extended in place.
+def _gemini_schema(schema: dict) -> dict:
+    """Convert a JSON schema to Gemini's schema format (upper-case types)."""
+    out = {}
+    for k, v in schema.items():
+        if k == "type":
+            out["type"] = v.upper()
+        elif k == "properties":
+            out["properties"] = {pk: _gemini_schema(pv) for pk, pv in v.items()}
+        else:
+            out[k] = v
+    return out
+
+
+def gemini_tools() -> list:
+    decls = []
+    for t in TOOLS:
+        d = {"name": t["name"], "description": t["description"]}
+        if t["input_schema"].get("properties"):  # Gemini rejects empty parameter objects
+            d["parameters"] = _gemini_schema(t["input_schema"])
+        decls.append(d)
+    return [{"functionDeclarations": decls}]
+
+
+class AIError(Exception):
+    pass
+
+
+def _call(api_key: str, model: str, history: list) -> dict:
+    body = {
+        "systemInstruction": {"parts": [{"text": SYSTEM_PROMPT}]},
+        "contents": history,
+        "tools": gemini_tools(),
+        "generationConfig": {"maxOutputTokens": 2000},
+    }
+    for attempt in range(2):
+        r = requests.post(API_URL.format(model=model), json=body, timeout=90,
+                          headers={"x-goog-api-key": api_key, "Content-Type": "application/json"})
+        if r.status_code == 429 and attempt == 0:
+            time.sleep(8)  # free tier: short pause, then one retry
+            continue
+        break
+    if r.status_code == 429:
+        raise AIError("The free AI quota is used up for the moment. Please wait a minute (or try again tomorrow).")
+    if r.status_code == 404:
+        raise FileNotFoundError(model)
+    if r.status_code in (400, 401, 403) and "API key" in r.text:
+        raise AIError("The Gemini API key is not valid. Check GEMINI_API_KEY in Streamlit → Settings → Secrets.")
+    if r.status_code != 200:
+        raise AIError(f"Gemini error {r.status_code}: {r.text[:300]}")
+    return r.json()
+
+
+def pick_model(api_key: str, preferred: str | None) -> str:
+    """Return the first model name that answers, so the app keeps working when Google renames models."""
+    candidates = ([preferred] if preferred else []) + [m for m in MODEL_FALLBACKS if m != preferred]
+    for m in candidates:
+        try:
+            _call(api_key, m, [{"role": "user", "parts": [{"text": "Reply with OK."}]}])
+            return m
+        except FileNotFoundError:
+            continue
+    raise AIError("No Gemini model found. Set GEMINI_MODEL in Secrets to a current model name from aistudio.google.com.")
+
+
+def chat(api_key: str, model: str, history: list, df, params, kpi_fn, max_rounds: int = 8):
+    """Run one user turn. `history` is the Gemini `contents` list; it is extended in place.
     Returns (final_text, tool_calls) where tool_calls is a list of (name, args) for transparency."""
     calls = []
     for _ in range(max_rounds):
-        resp = client.messages.create(model=model, max_tokens=2000, system=SYSTEM_PROMPT,
-                                      tools=TOOLS, messages=history)
-        content = []
-        for b in resp.content:
-            if b.type == "text":
-                content.append({"type": "text", "text": b.text})
-            elif b.type == "tool_use":
-                content.append({"type": "tool_use", "id": b.id, "name": b.name, "input": b.input})
-        history.append({"role": "assistant", "content": content})
-        if resp.stop_reason != "tool_use":
-            text = "\n".join(b.text for b in resp.content if b.type == "text")
-            return text, calls
-        results = []
-        for b in resp.content:
-            if b.type == "tool_use":
-                calls.append((b.name, b.input))
-                results.append({"type": "tool_result", "tool_use_id": b.id,
-                                "content": run_tool(b.name, b.input, df, params, kpi_fn)})
-        history.append({"role": "user", "content": results})
+        data = _call(api_key, model, history)
+        cands = data.get("candidates") or []
+        if not cands or "content" not in cands[0]:
+            reason = (cands[0].get("finishReason") if cands else None) or data.get("promptFeedback", {})
+            return f"The AI gave no answer ({reason}). Please rephrase the question.", calls
+        content = cands[0]["content"]
+        content.setdefault("role", "model")
+        history.append(content)  # keep the model turn unchanged (Gemini needs its thought signatures back)
+        parts = content.get("parts", [])
+        fcalls = [p["functionCall"] for p in parts if "functionCall" in p]
+        if not fcalls:
+            return "\n".join(p["text"] for p in parts if "text" in p and not p.get("thought")).strip(), calls
+        responses = []
+        for fc in fcalls:
+            args = fc.get("args", {}) or {}
+            calls.append((fc["name"], args))
+            result = json.loads(run_tool(fc["name"], args, df, params, kpi_fn))
+            fr = {"name": fc["name"], "response": {"result": result}}
+            if fc.get("id"):
+                fr["id"] = fc["id"]
+            responses.append({"functionResponse": fr})
+        history.append({"role": "user", "parts": responses})
     return "Stopped after too many tool calls — please ask a more specific question.", calls

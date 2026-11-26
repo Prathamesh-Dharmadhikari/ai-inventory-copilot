@@ -1,7 +1,7 @@
 """AI Inventory Planning Copilot — Streamlit app.
 
 Run locally:  streamlit run app.py
-Deploy free:  share.streamlit.io (connect this GitHub repo, add ANTHROPIC_API_KEY under Secrets)
+Deploy free:  share.streamlit.io (connect this GitHub repo, add GEMINI_API_KEY under Secrets — free key from aistudio.google.com)
 """
 import os
 
@@ -22,9 +22,9 @@ def get_secret(name, default=None):
         return os.environ.get(name, default)
 
 
-API_KEY = get_secret("ANTHROPIC_API_KEY")
-APP_PASSWORD = get_secret("APP_PASSWORD")  # optional: protects the AI tab (your API key costs money)
-MODEL = get_secret("ANTHROPIC_MODEL", copilot.MODEL_DEFAULT)
+API_KEY = get_secret("GEMINI_API_KEY")
+APP_PASSWORD = get_secret("APP_PASSWORD")  # optional: protects the free daily AI quota
+MODEL_PREF = get_secret("GEMINI_MODEL")
 
 # ---------- sidebar: planning parameters ----------
 st.sidebar.header("Planning parameters")
@@ -117,10 +117,10 @@ with tab_ai:
     st.caption("The AI answers using tool calls on the planning data above, so its numbers are traceable. "
                "Supplier emails are drafts for you to review, nothing is sent.")
     if not API_KEY:
-        st.info("To activate the AI Copilot, add your ANTHROPIC_API_KEY in Streamlit → Settings → Secrets "
+        st.info("To activate the AI Copilot, add your free GEMINI_API_KEY in Streamlit → Settings → Secrets "
                 "(or as an environment variable when running locally). The other tabs work without it.")
     elif APP_PASSWORD and not st.session_state.get("unlocked"):
-        pw = st.text_input("This demo uses a paid AI key. Enter the demo password to use the chat:", type="password")
+        pw = st.text_input("The AI chat has a limited free daily quota. Enter the demo password to use it:", type="password")
         if pw:
             if pw == APP_PASSWORD:
                 st.session_state.unlocked = True
@@ -129,8 +129,12 @@ with tab_ai:
                 st.error("Wrong password.")
         st.caption("No password? The Overview, Reorder alerts and Part explorer tabs are open to everyone.")
     else:
-        import anthropic
-        client = anthropic.Anthropic(api_key=API_KEY)
+        if "model" not in st.session_state:
+            try:
+                st.session_state.model = copilot.pick_model(API_KEY, MODEL_PREF)
+            except Exception as e:
+                st.error(str(e))
+                st.stop()
         if "history" not in st.session_state:
             st.session_state.history, st.session_state.display = [], []
 
@@ -155,16 +159,17 @@ with tab_ai:
         prompt = st.chat_input("e.g. Which suppliers cause the most critical parts?") or clicked
         if prompt:
             st.session_state.display.append(("user", prompt, []))
-            st.session_state.history.append({"role": "user", "content": prompt})
+            turn_start = len(st.session_state.history)
+            st.session_state.history.append({"role": "user", "parts": [{"text": prompt}]})
             with st.chat_message("user"):
                 st.markdown(prompt)
             with st.chat_message("assistant"):
                 with st.spinner("Checking the planning data…"):
                     try:
-                        answer, calls = copilot.chat(client, MODEL, st.session_state.history, df, p, kpis)
+                        answer, calls = copilot.chat(API_KEY, st.session_state.model, st.session_state.history, df, p, kpis)
                     except Exception as e:
-                        answer, calls = f"Error from the AI service: {e}", []
-                        st.session_state.history.pop()
+                        answer, calls = f"⚠️ {e}", []
+                        del st.session_state.history[turn_start:]  # drop the failed turn
                 st.markdown(answer)
                 if calls:
                     with st.expander(f"Data used ({len(calls)} tool calls)"):
