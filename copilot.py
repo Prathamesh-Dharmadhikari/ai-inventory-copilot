@@ -14,7 +14,7 @@ import pandas as pd
 
 # Free-tier Gemini models. The first one that works is used; override with the GEMINI_MODEL secret.
 MODEL_DEFAULT = "gemini-4-hydrogen"
-MODEL_FALLBACKS = ["gemini-4-hydrogen", "gemini-flash-latest", "gemini-flash-lite-latest",
+MODEL_FALLBACKS = ["gemini-4-hydrogen", "gemini-3.8-flash", "gemini-flash-latest", "gemini-flash-lite-latest",
                    "gemini-2.5-flash", "gemini-2.5-flash-lite"]
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
@@ -24,6 +24,9 @@ safety stock, reorder points and EOQ lot sizes, plus a current stock snapshot wi
 
 Rules:
 - Get every number from the tools. Never guess or invent figures, part numbers or suppliers.
+- Use as few tool calls as possible (the free AI quota is small): usually one or two calls are enough.
+  If you need several tools, call them together in the same step. Do not look up parts one by one
+  when list_parts already gives the needed columns.
 - Be concise and practical, like an experienced planner talking to a colleague. Use € and units.
 - When you explain a calculation, show the formula with the actual values
   (safety stock = z × σ weekly demand × √lead time; reorder point = avg weekly demand × lead time + safety stock;
@@ -216,23 +219,38 @@ class Busy(Exception):
     """Model temporarily overloaded (503/500) or rate-limited (429)."""
 
 
+_no_thinking_cfg = set()  # models that reject the thinking setting
+
+
 def _call(api_key: str, model: str, history: list) -> dict:
+    gen = {"maxOutputTokens": 8192}
+    if model not in _no_thinking_cfg:
+        gen["thinkingConfig"] = {"thinkingLevel": "low"}  # faster answers, fewer timeouts
     body = {
         "systemInstruction": {"parts": [{"text": SYSTEM_PROMPT}]},
         "contents": history,
         "tools": gemini_tools(),
-        "generationConfig": {"maxOutputTokens": 8192},  # thinking models count their thinking here too
+        "generationConfig": gen,
     }
-    waits = [2, 5, 10]  # busy model: wait and retry a few times
-    for attempt in range(len(waits) + 1):
-        r = requests.post(API_URL.format(model=model), json=body, timeout=90,
+    try:
+        r = requests.post(API_URL.format(model=model), json=body, timeout=60,
                           headers={"x-goog-api-key": api_key, "Content-Type": "application/json"})
-        if r.status_code in (429, 500, 503) and attempt < len(waits):
-            time.sleep(waits[attempt])
-            continue
-        break
-    if r.status_code in (429, 500, 503):
-        raise Busy(f"{model}: {r.status_code}")
+    except requests.RequestException:
+        raise Busy(f"{model}: timeout")
+    if r.status_code == 400 and "thinking" in r.text.lower() and model not in _no_thinking_cfg:
+        _no_thinking_cfg.add(model)  # older model: retry without the thinking setting
+        return _call(api_key, model, history)
+    if r.status_code == 429:
+        raise Busy(f"{model}: quota")
+    if r.status_code in (500, 503):
+        time.sleep(3)
+        try:
+            r = requests.post(API_URL.format(model=model), json=body, timeout=60,
+                              headers={"x-goog-api-key": api_key, "Content-Type": "application/json"})
+        except requests.RequestException:
+            raise Busy(f"{model}: timeout")
+        if r.status_code in (429, 500, 503):
+            raise Busy(f"{model}: {r.status_code}")
     if r.status_code == 404:
         raise FileNotFoundError(model)
     if r.status_code in (400, 401, 403) and "API key" in r.text:
@@ -263,11 +281,12 @@ def _call_any(api_key: str, models: list, history: list) -> dict:
             busy = True
             continue
     if busy:
-        raise AIError("Google's free AI models are busy right now. Please try again in a minute.")
+        raise AIError("The free AI quota is used up or Google's models are busy. Please try again in a minute; "
+                      "if it keeps happening, the daily free limit is reached (it resets at about 9:00 German time).")
     raise AIError("No Gemini model found. Set GEMINI_MODEL in Secrets to a current model name from aistudio.google.com.")
 
 
-def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int = 10):
+def chat(api_key: str, model, history: list, df, params, kpi_fn, max_rounds: int = 6):
     """Run one user turn. `history` is the Gemini `contents` list; it is extended in place.
     Returns (final_text, tool_calls) where tool_calls is a list of (name, args) for transparency."""
     calls = []
